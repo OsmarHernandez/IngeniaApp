@@ -11,7 +11,12 @@ import UIKit
 class GistsTableViewCell: UITableViewCell {
 
     // MARK: Properties
-    @IBOutlet weak var avatarImage: UIImageView!
+    @IBOutlet weak var avatarImage: UIImageView! {
+        didSet {
+            avatarImage.layer.cornerRadius = 40
+            avatarImage.layer.masksToBounds = true
+        }
+    }
     @IBOutlet weak var fileNameLabel: UILabel!
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!

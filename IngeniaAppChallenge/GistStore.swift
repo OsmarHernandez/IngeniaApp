@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 enum GistsResult {
     case success([Gist])
@@ -45,21 +44,10 @@ class GistStore {
         task.resume()
     }
     
-    public func getOwnerImage(with stringURL: String, completion: @escaping (UIImage?) -> Void) {
-        guard let url = URL(string: stringURL) else { return }
-        
-        let task = session.dataTask(with: url) {
-            (data, response, error) in
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            let downloadedImage = UIImage(data: data)
-            
+    public func getOwnerImage(_ url: URL, completion: @escaping(Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
-                completion(downloadedImage)
+                completion(data, error)
             }
         }
         

@@ -104,15 +104,15 @@ extension GistsViewController: UITableViewDelegate, UITableViewDataSource {
             gistsCell.createdDateLabel.text = formatter.string(from: date)
         }
         
-        store.getOwnerImage(with: gist.ownerImageURL) {
-            (downloadedImage) in
-            
-            if let image = downloadedImage {
-                gistsCell.avatarImage.image = image
+        if let url = URL(string: gist.ownerImageURL) {
+            store.getOwnerImage(url) { (data, error) in
+                guard let data = data else { return }
+                
+                if let image = UIImage(data: data) {
+                    gistsCell.avatarImage.image = image
+                    gistsCell.setNeedsLayout()
+                }
             }
-            
-            gistsCell.avatarImage.layer.cornerRadius = 40
-            gistsCell.avatarImage.layer.masksToBounds = true
         }
         
         return gistsCell
